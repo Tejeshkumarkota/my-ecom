@@ -27,6 +27,7 @@ const productsReducer = (state = initialState, action) => {
         products:{
           loading: true,
           data: null,
+           message: "getting data"
         }
       };
     }
@@ -36,6 +37,7 @@ const productsReducer = (state = initialState, action) => {
         products:{
           loading: false,
           data: action.payload,
+           message: "got data successfully"
         }
       };
     }
@@ -44,7 +46,8 @@ const productsReducer = (state = initialState, action) => {
         ...state,
         products:{
           loading: false,
-          data: action.payload,
+          data: action.payload.data,
+          message: action.payload.message
         }
       };
     }

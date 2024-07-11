@@ -12,6 +12,10 @@ import Products from "./core/screens/Products/Products";
 import WishList from "./core/screens/WishList/WishList";
 import { RouteConstants } from "./shared/constants/RouteConstants";
 
+/*
+note: run below command in this project terminal for api's to work in this project
+npx json-server --watch src/shared/api/products.json --port 5175
+*/
 
 function App() {
   return (
