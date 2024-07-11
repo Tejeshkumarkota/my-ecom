@@ -21,7 +21,7 @@ function App() {
         <Route path={RouteConstants.CONTACT_US} element={<ContactUs />} />
         <Route path={RouteConstants.PRODUCTS} element={<Products />} />
         <Route
-          path={RouteConstants.PRODUCT_DETAILS+':productId'}
+          path={`${RouteConstants.PRODUCT_DETAILS}:productId`}
           element={<ProductDetails />}
         />
         <Route path={RouteConstants.WISHLIST} element={<WishList />} />

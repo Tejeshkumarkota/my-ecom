@@ -7,25 +7,20 @@ import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Endpoints } from "../constants/Endpoints";
 import axios from "axios";
+import { useSelector,useDispatch } from "react-redux";
+import * as actions from "../../store/redux/actions";
 
 export default function Product() {
-  const [data, setData] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isCart, setIsCart] = useState(false);
 
+  const dispatch = useDispatch()
+  const products = useSelector(state=>state.allProducts.products);
+  console.log("data",products.data)
   // Fetch product data from API
   useEffect(() => {
-    axios
-      .get(Endpoints.PRODUCTS)
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        toast.error("Something went wrong!");
-      });
+    dispatch(actions.getProducts())
   }, []);
 
   const handleFavoriteClick = () => {
@@ -45,8 +40,8 @@ export default function Product() {
     <>
       {loading && <div className="text-center">Loading...</div>}
       <div className="product-styles">
-        {data &&
-          data.map((item, index) => (
+        {products.data &&
+          products.data?.map((item, index) => (
             <div key={index} className="product-card">
               <Link to={RouteConstants.PRODUCT_DETAILS + item.id}>
                 <img
