@@ -24,18 +24,19 @@ const Get =async(url)=>{
 
 }
 
-const Post = async (url) => {
+const Post = async (url,postdata) => {
+  // console.log('url',url,"\npostdata",postdata)
   try {
-    const { data } = axios.get(url);
+    const data  = axios.post(url,postdata);
     return data;
   } catch (error) {
-    return { error };
+    return error;
   }
 };
 
 const Patch = async (url) => {
   try {
-    const { data } = axios.get(url);
+    const { data } = axios.patch(url);
     return data;
   } catch (error) {
     return { error };
@@ -43,7 +44,7 @@ const Patch = async (url) => {
 };
 const Put = async (url) => {
   try {
-    const { data } = axios.get(url);
+    const { data } = axios.put(url);
     return data;
   } catch (error) {
     return { error };
@@ -52,10 +53,10 @@ const Put = async (url) => {
 
 const Delete = async (url) => {
   try {
-    const { data } = axios.get(url);
+    const data = axios.delete(url);
     return data;
   } catch (error) {
-    return { error };
+    return error;
   }
 };
 

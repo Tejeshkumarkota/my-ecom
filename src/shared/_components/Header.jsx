@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { RouteConstants } from "../constants/RouteConstants";
 import { Link, useLocation } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from '../../store/redux/actions'
+import { services,getFullUrl } from "../helpers";
+import { Endpoints } from "../constants/Endpoints";
 
 export default function Header() {
   const location = useLocation();
-
+  const [wish,setWish] = useState(null)
+  // const [error,setError] = useState(null)
+  useEffect(() => {
+    services.Get(getFullUrl(Endpoints.WISH_LIST)).then((response)=>{
+     setWish(response)
+    }).catch((err)=>{
+      setError(err)
+    })
+  }, [wish]);
+  
   return (
     <div className="header">
       <Link className="logo" to={RouteConstants.HOME}>
@@ -20,7 +33,7 @@ export default function Header() {
         <Link className={(location.pathname === RouteConstants.CONTACT_US ? "active" : "")} to={RouteConstants.CONTACT_US}>Contact us</Link>
         <Link className={(location.pathname === RouteConstants.WISHLIST ? "active" : "")} to={RouteConstants.WISHLIST} title="Wish list">
           <FavoriteBorderOutlinedIcon />
-          <span className="badge">13</span>
+          <span className="badge">{wish?.data?.length ? wish?.data?.length : '0'}</span>
         </Link>
         <Link className={(location.pathname === RouteConstants.CART ? "active" : "")} to={RouteConstants.CART} title="Cart">
           <ShoppingCartOutlinedIcon />

@@ -43,15 +43,9 @@ export default function Product() {
     toast.success("Added to cart successfully!");
   };
 
-  // if(products.data === null){
-  //   console.log("data", products.data);
-  // }else{
-  //   console.log("else", products.data);
-  // }
-
   return (
     <>
-      {loading? <div className="text-center">Loading...</div>: products.data===null ?<div className="text-center">{products.message}</div>:''}
+      { !products.data && loading? <div className="text-center">Loading...</div>: products.data===null ?<div className="text-center">{products.message}</div>:''}
       <div className="product-styles">
         {products.data && (
           products?.data?.map((item, index) =>{ 
