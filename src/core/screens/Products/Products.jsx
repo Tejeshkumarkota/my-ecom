@@ -15,6 +15,7 @@ export default function Products() {
   let callWishlist = () => {
     dispatch(actions.getWishList_Products());
   };
+
   return (
     <MasterLayout>
       <h1 className="mb-5">Wishlisted Products</h1>
