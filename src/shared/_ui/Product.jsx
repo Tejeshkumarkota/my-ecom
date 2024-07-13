@@ -7,25 +7,27 @@ import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Endpoints } from "../constants/Endpoints";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "../../store/redux/actions";
 
 export default function Product() {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.allProducts.products);
+
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isCart, setIsCart] = useState(false);
 
   // Fetch product data from API
   useEffect(() => {
-    axios
-      .get(Endpoints.PRODUCTS)
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        toast.error("Something went wrong!");
-      });
+    dispatch(actions.getProducts());
+  }, []);
+  useEffect(() => {
+    if(products.data===null){
+      setTimeout(() => {
+        setLoading(false)
+      }, 5000);
+    }
   }, []);
 
   const handleFavoriteClick = () => {
@@ -43,10 +45,11 @@ export default function Product() {
 
   return (
     <>
-      {loading && <div className="text-center">Loading...</div>}
+      { !products.data && loading? <div className="text-center">Loading...</div>: products.data===null ?<div className="text-center">{products.message}</div>:''}
       <div className="product-styles">
-        {data &&
-          data.map((item, index) => (
+        {products.data && (
+          products?.data?.map((item, index) =>{ 
+            return(
             <div key={index} className="product-card">
               <Link to={RouteConstants.PRODUCT_DETAILS + item.id}>
                 <img
@@ -72,22 +75,20 @@ export default function Product() {
                 <p className="price mb-0">${item.price}</p>
                 {/* <p>4.9</p> */}
                 {isCart ? (
-                  <button className="add-cart-btn">
-                    Remove
-                  </button>
+                  <button className="add-cart-btn">Remove</button>
                 ) : (
                   <button onClick={addToCart} className="add-cart-btn">
                     Add to Cart
                   </button>
                 )}
-
-                {/* <button className="add-cart-btn btn-icon">
+{/* <button className="add-cart-btn btn-icon">
                 <CachedOutlinedIcon/> Adding to Cart
                 Added to Cart
-              </button> */}
+              </button> */}          
               </div>
             </div>
-          ))}
+          )})
+        )}
       </div>
       <ToastContainer theme="colored" />
     </>

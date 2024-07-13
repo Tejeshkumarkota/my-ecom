@@ -12,6 +12,10 @@ import Products from "./core/screens/Products/Products";
 import WishList from "./core/screens/WishList/WishList";
 import { RouteConstants } from "./shared/constants/RouteConstants";
 
+/*
+note: run below command in this project terminal for api's to work in this project
+npx json-server --watch src/shared/api/products.json --port 5175
+*/
 
 function App() {
   return (
@@ -21,7 +25,7 @@ function App() {
         <Route path={RouteConstants.CONTACT_US} element={<ContactUs />} />
         <Route path={RouteConstants.PRODUCTS} element={<Products />} />
         <Route
-          path={RouteConstants.PRODUCT_DETAILS+':productId'}
+          path={`${RouteConstants.PRODUCT_DETAILS}:productId`}
           element={<ProductDetails />}
         />
         <Route path={RouteConstants.WISHLIST} element={<WishList />} />
